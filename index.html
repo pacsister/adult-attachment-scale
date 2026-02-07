@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Revised Adult Attachment Scale (Collins, 1996) — Student Self-Scoring</title>
+<style>
+  :root {
+    --bg: #0b1020;
+    --card: rgba(255,255,255,0.06);
+    --text: rgba(255,255,255,0.92);
+    --muted: rgba(255,255,255,0.72);
+    --muted2: rgba(255,255,255,0.55);
+    --line: rgba(255,255,255,0.16);
+    --focus: rgba(122, 162, 247, 0.85);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    background: radial-gradient(1200px 700px at 20% 0%, rgba(122,162,247,0.20), transparent 60%),
+                radial-gradient(1200px 700px at 100% 10%, rgba(236,72,153,0.12), transparent 55%),
+                radial-gradient(1000px 700px at 50% 100%, rgba(52,211,153,0.10), transparent 55%),
+                var(--bg);
+    color: var(--text);
+    line-height: 1.45;
+  }
+  a { color: var(--focus); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 28px 18px 48px; }
+  header { display: grid; gap: 10px; margin-bottom: 18px; }
+  .title { font-size: 1.6rem; font-weight: 750; letter-spacing: 0.2px; }
+  .subtitle { color: var(--muted); font-size: 0.98rem; max-width: 80ch; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.22); }
+  .card + .card { margin-top: 14px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+  .pill { display: inline-flex; gap: 8px; align-items: center; padding: 7px 10px; background: rgba(255,255,255,0.07); border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 0.9rem; }
+  .progress { height: 10px; background: rgba(255,255,255,0.10); border-radius: 999px; overflow: hidden; border: 1px solid var(--line); }
+  .bar { height: 100%; width: 0%; background: linear-gradient(90deg, rgba(122,162,247,0.95), rgba(52,211,153,0.95)); border-radius: 999px; transition: width 180ms ease; }
+  .items { display: grid; gap: 12px; margin-top: 12px; }
+  .item { background: rgba(255,255,255,0.05); border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+  .item:focus-within { outline: 2px solid rgba(122,162,247,0.7); outline-offset: 2px; }
+  .qhead { display: grid; gap: 8px; margin-bottom: 8px; }
+  .qnum { color: var(--muted2); font-size: 0.85rem; }
+  .qtext { font-size: 1.0rem; }
+  .likert { display: grid; grid-template-columns: repeat(5, minmax(44px, 1fr)); gap: 8px; }
+  .opt { position: relative; }
+  .opt input { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+  .opt label { display: grid; place-items: center; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: rgba(255,255,255,0.04); color: var(--muted); cursor: pointer; user-select: none; font-weight: 650; }
+  .opt input:checked + label { background: rgba(122,162,247,0.18); border-color: rgba(122,162,247,0.55); color: var(--text); }
+  .opt input:focus-visible + label { outline: 3px solid rgba(122,162,247,0.55); outline-offset: 2px; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; margin-top: 14px; }
+  button { appearance: none; border: 1px solid var(--line); background: rgba(255,255,255,0.06); color: var(--text); padding: 10px 12px; border-radius: 12px; cursor: pointer; font-weight: 680; }
+  button.primary { background: rgba(52,211,153,0.14); border-color: rgba(52,211,153,0.55); }
+  button.danger { background: rgba(248,113,113,0.12); border-color: rgba(248,113,113,0.55); }
+  button:hover { background: rgba(255,255,255,0.09); }
+  button.primary:hover { background: rgba(52,211,153,0.18); }
+  button.danger:hover { background: rgba(248,113,113,0.18); }
+  .note { color: var(--muted); font-size: 0.92rem; }
+  .warnbox { border-left: 4px solid rgba(251,191,36,0.95); padding-left: 12px; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  .result { display: none; }
+  .result.show { display: block; }
+  table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 14px; border: 1px solid var(--line); }
+  th, td { padding: 10px 10px; border-bottom: 1px solid rgba(255,255,255,0.10); text-align: left; vertical-align: top; }
+  th { font-size: 0.9rem; color: var(--muted); background: rgba(255,255,255,0.05); }
+  td { font-size: 0.95rem; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,0.06); font-weight: 720; }
+  .badge.ok { border-color: rgba(52,211,153,0.7); background: rgba(52,211,153,0.14); }
+  .badge.warn { border-color: rgba(251,191,36,0.7); background: rgba(251,191,36,0.12); }
+  .printOnly { display: none; }
+  @media print {
+    body { background: white; color: black; }
+    .card, table { box-shadow: none; }
+    .actions, .progress, .pill, #topNotice { display: none !important; }
+    .printOnly { display: block; }
+    a { color: black; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="title">Revised Adult Attachment Scale (Collins, 1996) — Close Relationships Version</div>
+    <div class="subtitle">
+      Classroom self-scoring for SHDH2379 Tutorial 8. Answer the 18 statements based on how you <b>generally feel</b> in important close relationships.
+    </div>
+  </header>
+
+  <div id="topNotice" class="card">
+    <div class="row">
+      <div class="pill"><span>Response scale:</span> <span class="mono">1</span> Not at all characteristic … <span class="mono">5</span> Very characteristic</div>
+      <div class="pill"><span>Items:</span> <span id="countDone" class="mono">0</span>/<span class="mono">18</span> answered</div>
+    </div>
+    <div style="margin-top:10px" class="progress" aria-label="Completion progress">
+      <div id="bar" class="bar"></div>
+    </div>
+    <div class="note warnbox" style="margin-top:12px">
+      <b>Privacy:</b> Answers are <b>not</b> sent anywhere and are not saved after you close this page. Use “Print / Save as PDF” on the Results screen if you need a record.
+    </div>
+  </div>
+
+  <div class="card">
+    <b>Instructions</b>
+    <p class="note" style="margin-top:8px">
+      Think about your past and present relationships with people who have been especially important to you (family members, romantic partners, close friends).
+      Respond to each statement in terms of how you generally feel in these relationships. Select a number from <span class="mono">1</span> to <span class="mono">5</span>.
+    </p>
+  </div>
+
+  <form id="aasForm" class="card" autocomplete="off">
+    <b>Items</b>
+    <div class="items" id="items"></div>
+
+    <div class="actions">
+      <button type="button" id="btnUnanswered">Review unanswered</button>
+      <button type="button" class="danger" id="btnReset">Reset</button>
+      <button type="submit" class="primary" id="btnScore">Score &amp; interpret</button>
+    </div>
+  </form>
+
+  <div id="result" class="card result" aria-live="polite">
+    <div class="row">
+      <div>
+        <div class="printOnly"><h2>Revised Adult Attachment Scale — Results</h2></div>
+        <b>Your results</b>
+        <div class="note" style="margin-top:6px">
+          Scores shown are <b>means</b> (range 1–5) after applying reverse scoring where needed.
+        </div>
+      </div>
+      <div class="actions" style="margin-top:0">
+        <button type="button" id="btnBack">Back to items</button>
+        <button type="button" class="primary" id="btnPrint">Print / Save as PDF</button>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <table>
+        <thead>
+          <tr>
+            <th>Subscale</th>
+            <th>Your mean</th>
+            <th>What it reflects</th>
+            <th>Reference mean (class handout)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Close</b></td>
+            <td class="mono" id="outClose">—</td>
+            <td>Comfort with closeness & intimacy.</td>
+            <td class="mono">3.77</td>
+          </tr>
+          <tr>
+            <td><b>Depend</b></td>
+            <td class="mono" id="outDepend">—</td>
+            <td>Comfort depending on others; belief others will be available when needed.</td>
+            <td class="mono">3.44</td>
+          </tr>
+          <tr>
+            <td><b>Anxiety</b></td>
+            <td class="mono" id="outAnxiety">—</td>
+            <td>Worry about being rejected or unloved.</td>
+            <td class="mono">2.23</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:12px; background: rgba(255,255,255,0.04);">
+      <div class="row" style="align-items:flex-start">
+        <div style="flex:1 1 420px">
+          <b>Attachment style (heuristic classification)</b>
+          <p class="note" style="margin-top:8px">
+            The tutorial notes describe styles using <b>high / moderate / low</b> patterns across the three subscales.
+            This page uses simple cutoffs to operationalize those words:
+          </p>
+          <ul class="note" style="margin-top:6px; margin-bottom:0">
+            <li><b>High</b>: mean ≥ <span class="mono">3.50</span></li>
+            <li><b>Low</b>: mean ≤ <span class="mono">2.50</span></li>
+            <li><b>Moderate</b>: between <span class="mono">2.51–3.49</span></li>
+          </ul>
+          <p class="note" style="margin-top:8px">
+            If your course uses different cutoffs/norms, edit <span class="mono">HIGH_CUTOFF</span> / <span class="mono">LOW_CUTOFF</span> in the file.
+          </p>
+        </div>
+        <div style="flex:1 1 320px">
+          <div id="styleBadge" class="badge">—</div>
+          <div class="note" id="styleText" style="margin-top:10px">—</div>
+        </div>
+      </div>
+    </div>
+
+    <details style="margin-top:12px">
+      <summary style="cursor:pointer; color: var(--muted)">Show scoring details (items &amp; reverse scoring)</summary>
+      <div class="note" style="margin-top:10px">
+        <b>Close</b> items: 1, 6, 8*, 12, 13*, 17*<br/>
+        <b>Depend</b> items: 2*, 5, 7*, 14, 16*, 18*<br/>
+        <b>Anxiety</b> items: 3, 4, 9, 10, 11, 15<br/>
+        Reverse-scored items (*) use <span class="mono">(6 − your score)</span>.
+      </div>
+    </details>
+
+    <div class="note" style="margin-top:10px">
+      <b>Reminder:</b> This is a classroom learning exercise and not a clinical diagnosis.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const ITEMS = [" I find it relatively easy to get close to people.", " I find it difficult to allow myself to depend on others.", " I often worry that other people don't really love me.", " I find that others are reluctant to get as close as I would like.", " I am comfortable depending on others.", " I don’t worry about people getting too close to me.", " I find that people are never there when you need them.", " I am somewhat uncomfortable being close to others.", " I often worry that other people won’t want to stay with me.", " When I show my feelings for others, I'm afraid they will not feel the same about me.", " I often wonder whether other people really care about me.", " I am comfortable developing close relationships with others.", " I am uncomfortable when anyone gets too emotionally close to me.", " I know that people will be there when I need them.", " I want to get close to people, but I worry about being hurt.", " I find it difficult to trust others completely.", " People often want me to be emotionally closer than I feel comfortable being.", " I am not sure that I can always depend on people to be there when I need them."];
+  const REVERSE = new Set([2, 7, 8, 13, 16, 17, 18]);
+  const CLOSE = [1, 6, 8, 12, 13, 17];
+  const DEPEND = [2, 5, 7, 14, 16, 18];
+  const ANXIETY = [3, 4, 9, 10, 11, 15];
+
+  // Heuristic cutoffs for "high / moderate / low"
+  const HIGH_CUTOFF = 3.50;
+  const LOW_CUTOFF  = 2.50;
+
+  const form = document.getElementById('aasForm');
+  const itemsDiv = document.getElementById('items');
+  const bar = document.getElementById('bar');
+  const countDone = document.getElementById('countDone');
+  const resultDiv = document.getElementById('result');
+
+  function fmt(x) {
+    if (x === null || Number.isNaN(x)) return '—';
+    return (Math.round(x * 100) / 100).toFixed(2);
+  }
+
+  function level(mean) {
+    if (mean >= HIGH_CUTOFF) return 'high';
+    if (mean <= LOW_CUTOFF) return 'low';
+    return 'moderate';
+  }
+
+  function classify(closeM, dependM, anxM) {
+    const c = level(closeM), d = level(dependM), a = level(anxM);
+
+    // Based on tutorial descriptions:
+    // Secure: high Close & Depend, low Anxiety
+    if (c === 'high' && d === 'high' && a === 'low') {
+      return {
+        label: 'Secure',
+        tone: 'ok',
+        text: 'Pattern: high Close + high Depend + low Anxiety. Comfortable with closeness and depending on others; less worry about rejection or abandonment.'
+      };
+    }
+    // Anxious: high Anxiety, moderate Close & Depend
+    if (a === 'high' && (c === 'moderate' || c === 'high') && (d === 'moderate' || d === 'high')) {
+      return {
+        label: 'Anxious (preoccupied)',
+        tone: 'warn',
+        text: 'Pattern: high Anxiety with moderate/high Close and Depend. Desire for closeness, paired with stronger worry about being rejected or unloved.'
+      };
+    }
+    // Avoidant: low Close, Depend, Anxiety
+    if (c === 'low' && d === 'low' && a === 'low') {
+      return {
+        label: 'Avoidant',
+        tone: 'warn',
+        text: 'Pattern: low Close + low Depend + low Anxiety. Less comfort with emotional closeness and relying on others; generally less expressed worry about rejection.'
+      };
+    }
+
+    // Mixed / unclear patterns (very common)
+    return {
+      label: 'Mixed / Not clearly classifiable',
+      tone: 'warn',
+      text: 'Your pattern does not neatly match the simple high/moderate/low profiles. Discuss how each dimension might show up in relationships rather than forcing a single label.'
+    };
+  }
+
+  function buildItems() {
+    itemsDiv.innerHTML = '';
+    ITEMS.forEach((text, idx) => {
+      const q = idx + 1;
+      const isRev = REVERSE.has(q);
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.id = `q${q}`;
+      item.innerHTML = `
+        <div class="qhead">
+          <div class="qnum">Item ${q}${isRev ? ' <span class="mono">(reverse-scored)</span>' : ''}</div>
+          <div class="qtext">${text}</div>
+        </div>
+        <div class="likert" role="radiogroup" aria-label="Item ${q}">
+          ${[1,2,3,4,5].map(v => `
+            <div class="opt">
+              <input id="q${q}_${v}" name="q${q}" type="radio" value="${v}">
+              <label for="q${q}_${v}">${v}</label>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      itemsDiv.appendChild(item);
+    });
+  }
+
+  function getAnswers() {
+    const ans = {};
+    for (let q = 1; q <= ITEMS.length; q++) {
+      const el = form.querySelector(`input[name="q${q}"]:checked`);
+      ans[q] = el ? Number(el.value) : null;
+    }
+    return ans;
+  }
+
+  function updateProgress() {
+    const ans = getAnswers();
+    let done = 0;
+    for (let q = 1; q <= ITEMS.length; q++) if (ans[q] !== null) done++;
+    countDone.textContent = String(done);
+    bar.style.width = (done / ITEMS.length * 100).toFixed(1) + '%';
+  }
+
+  function reverseScore(q, value) {
+    if (value === null) return null;
+    return REVERSE.has(q) ? (6 - value) : value;
+  }
+
+  function meanOf(items, ans) {
+    const vals = [];
+    for (const q of items) {
+      const v = reverseScore(q, ans[q]);
+      if (v === null) return null; // require complete data
+      vals.push(v);
+    }
+    const sum = vals.reduce((a,b) => a + b, 0);
+    return sum / vals.length;
+  }
+
+  function scrollToFirstUnanswered() {
+    const ans = getAnswers();
+    for (let q = 1; q <= ITEMS.length; q++) {
+      if (ans[q] === null) {
+        const el = document.getElementById(`q${q}`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+    }
+    alert('All items are answered.');
+  }
+
+  function showResults(closeM, dependM, anxM) {
+    document.getElementById('outClose').textContent = fmt(closeM);
+    document.getElementById('outDepend').textContent = fmt(dependM);
+    document.getElementById('outAnxiety').textContent = fmt(anxM);
+
+    const cls = classify(closeM, dependM, anxM);
+    const badge = document.getElementById('styleBadge');
+    badge.className = `badge ${cls.tone}`;
+    badge.innerHTML = `<span>${cls.label}</span> <span class="mono">(${level(closeM)}/${level(dependM)}/${level(anxM)})</span>`;
+    document.getElementById('styleText').textContent = cls.text;
+
+    resultDiv.classList.add('show');
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Init
+  buildItems();
+  updateProgress();
+
+  form.addEventListener('change', updateProgress);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const ans = getAnswers();
+
+    const missing = [];
+    for (let q = 1; q <= ITEMS.length; q++) if (ans[q] === null) missing.push(q);
+    if (missing.length) {
+      alert('Please answer all items before scoring. Missing: ' + missing.join(', '));
+      scrollToFirstUnanswered();
+      return;
+    }
+
+    const closeM = meanOf(CLOSE, ans);
+    const dependM = meanOf(DEPEND, ans);
+    const anxM = meanOf(ANXIETY, ans);
+
+    showResults(closeM, dependM, anxM);
+  });
+
+  document.getElementById('btnUnanswered').addEventListener('click', scrollToFirstUnanswered);
+
+  document.getElementById('btnReset').addEventListener('click', () => {
+    if (!confirm('Reset all answers?')) return;
+    form.reset();
+    updateProgress();
+    resultDiv.classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  document.getElementById('btnBack').addEventListener('click', () => {
+    resultDiv.classList.remove('show');
+    document.getElementById('topNotice').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  document.getElementById('btnPrint').addEventListener('click', () => window.print());
+</script>
+</body>
+</html>
