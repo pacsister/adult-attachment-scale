@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>職業興趣測試（Holland RIASEC）｜Bilingual Online Form</title>
+<style>
+:root{
+  --bg:#0b1020;--card:#121a33;--muted:rgba(255,255,255,.68);--text:#fff;
+  --line:rgba(255,255,255,.14);--pill:rgba(255,255,255,.08);
+  --accent:#7aa2ff;--ok:#5eead4;--warn:#fbbf24;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1100px 600px at 20% -10%, rgba(122,162,255,.35), transparent 60%),
+radial-gradient(900px 500px at 100% 10%, rgba(94,234,212,.22), transparent 60%),
+var(--bg);color:var(--text);font-family:var(--sans)}
+a{color:var(--accent)}
+.wrap{max-width:1100px;margin:0 auto;padding:22px}
+.hero{border:1px solid var(--line);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+padding:18px;border-radius:18px}
+h1{margin:0;font-size:20px;letter-spacing:.2px}
+.sub{margin-top:8px;color:var(--muted);line-height:1.6}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.langbtn{border:1px solid var(--line);background:rgba(255,255,255,.06);color:#fff;padding:8px 10px;border-radius:12px;cursor:pointer;font-weight:800}
+.langbtn.active{background:rgba(122,162,255,.20);border-color:rgba(122,162,255,.45)}
+.grid{display:grid;grid-template-columns: 1.2fr .8fr;gap:14px;margin-top:14px}
+@media (max-width: 980px){.grid{grid-template-columns:1fr}}
+.card{border:1px solid var(--line);background:rgba(18,26,51,.72);border-radius:18px;padding:14px}
+h2{margin:0 0 6px;font-size:16px}
+.muted{color:var(--muted)}
+.tiny{font-size:12px}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:var(--pill);border:1px solid var(--line);font-size:12px;color:var(--muted)}
+.items{display:flex;flex-direction:column;gap:10px}
+.item{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:14px;padding:10px;display:grid;grid-template-columns: 1fr auto;gap:10px;align-items:center}
+@media (max-width: 700px){.item{grid-template-columns:1fr}}
+.stem{display:flex;gap:10px;align-items:flex-start}
+.num{width:26px;height:26px;border-radius:10px;background:rgba(122,162,255,.16);border:1px solid rgba(122,162,255,.35);
+display:flex;align-items:center;justify-content:center;font-weight:700;font-family:var(--mono);font-size:12px}
+.txt{line-height:1.45}
+.choices{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.opt{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.02);cursor:pointer}
+.opt input{accent-color: var(--accent)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+button{border:1px solid var(--line);background:rgba(122,162,255,.18);color:#fff;padding:10px 12px;border-radius:12px;cursor:pointer;font-weight:800}
+button.secondary{background:rgba(255,255,255,.06)}
+hr{border:none;border-top:1px solid var(--line);margin:14px 0}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width: 700px){.kpis{grid-template-columns:1fr}}
+.kpi{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:14px;padding:10px}
+.kpi .label{font-size:12px;color:var(--muted)}
+.kpi .val{font-family:var(--mono);font-size:18px;font-weight:900;margin-top:6px}
+.mono{font-family:var(--mono)}
+.notice{border-left:4px solid rgba(94,234,212,.7);padding:10px 12px;border-radius:12px;background:rgba(94,234,212,.08);border:1px solid rgba(94,234,212,.25);color:rgba(255,255,255,.88)}
+.warn{border-left-color: rgba(251,191,36,.85);background:rgba(251,191,36,.10);border-color:rgba(251,191,36,.25)}
+.typeGrid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+.typeCard{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:16px;overflow:hidden}
+.typeHead{display:flex;gap:12px;align-items:center;padding:10px 12px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--line)}
+.typeCode{width:34px;height:34px;border-radius:12px;background:rgba(122,162,255,.18);border:1px solid rgba(122,162,255,.35);
+display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:900}
+.typeName{font-weight:900}
+.typeBody{padding:10px 12px}
+.bul{margin:6px 0 0 18px;color:rgba(255,255,255,.86)}
+.footer{margin-top:14px;color:var(--muted);font-size:12px;line-height:1.6}
+.smalllink{color:rgba(255,255,255,.78)}
+.zh{display:inline}
+.en{display:none}
+body.show-en .zh{display:none}
+body.show-en .en{display:inline}
+
+/* Hide results details until Score is pressed */
+.reveal-results{display:none}
+body.scored .reveal-results{display:block}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+<nav class="shared-nav" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:10px;">
+  <a href="index.html" style="text-decoration:none; color:#fff; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.06); padding:8px 10px; border-radius:999px; display:inline-flex; gap:8px; align-items:center;">
+    <span style="font-weight:800;">Home</span><span style="opacity:.75;">主頁</span>
+  </a>
+  <a href="aas.html" style="text-decoration:none; color:#fff; border:1px solid rgba(255,255,255,.14); background:rgba(122,162,255,.12); padding:8px 10px; border-radius:999px; display:inline-flex; gap:8px; align-items:center;">
+    <span style="font-weight:800;">AA Scale</span><span style="opacity:.75;">成人依附</span>
+  </a>
+  <a href="big5_bilingual.html" style="text-decoration:none; color:#fff; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.06); padding:8px 10px; border-radius:999px; display:inline-flex; gap:8px; align-items:center;">
+    <span style="font-weight:800;">Big Five</span><span style="opacity:.75;">五大人格</span>
+  </a>
+  <a href="holland.html" style="text-decoration:none; color:#fff; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.06); padding:8px 10px; border-radius:999px; display:inline-flex; gap:8px; align-items:center;">
+    <span style="font-weight:800;">Holland</span><span style="opacity:.75;">職業興趣</span>
+  </a>
+</nav>
+
+    <h1>
+      <span class="zh">職業興趣測試（Holland RIASEC）</span>
+      <span class="en">Career Interest Test (Holland RIASEC)</span>
+    </h1>
+    <div class="sub">
+      <span class="zh">John Holland（1971）；部份內容取自勞工處擇業輔導組。共三部份、各 12 題。</span>
+      <span class="en">John Holland (1971); adapted in part from Hong Kong Labour Department career guidance materials. Three parts, 12 items each.</span>
+      <br/>
+      <span class="zh">完成後會按「原本計分表」把每部份指定題號加總到 R/I/A/S/E/C。</span>
+      <span class="en">After you finish, the page sums the specified item numbers for each type (R/I/A/S/E/C) based on the original scoring sheet.</span>
+    </div>
+    <div class="row">
+      <button class="langbtn active" id="btnZh">中文</button>
+      <button class="langbtn" id="btnEn">English</button>
+      <span class="pill"><span class="zh">不會上載答案</span><span class="en">No answers are uploaded</span></span>
+    </div>
+    <div class="notice warn tiny" style="margin-top:10px;">
+      <b><span class="zh">提示：</span><span class="en">Note:</span></b>
+      <span class="zh">本頁只在你的瀏覽器內計分（不會儲存/傳送作答）。</span>
+      <span class="en">Scoring happens locally in your browser (answers are not stored or sent).</span>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      
+    <section class="card">
+      <h2><span class="zh">第一部分</span><span class="en">Part 1</span></h2>
+      <p class="muted"><span class="zh">以下是一些香港學生經常進行的課內或課餘的活動，您喜歡這些活動嗎？</span><span class="en">Below are common in-class or extracurricular activities. How much do you like these activities?</span></p>
+      <div class="legend">
+        <span class="pill"><span class="zh">1 = 很不喜歡 / 差很多</span><span class="en">1 = Strongly dislike / Much worse</span></span>
+        <span class="pill"><span class="zh">2 = 不喜歡 / 差一點</span><span class="en">2 = Dislike / A bit worse</span></span>
+        <span class="pill"><span class="zh">3 = 喜歡 / 出色一點</span><span class="en">3 = Like / A bit better</span></span>
+        <span class="pill"><span class="zh">4 = 很喜歡 / 出色很多</span><span class="en">4 = Strongly like / Much better</span></span>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div class="stem">
+            <div class="num">1</div>
+            <div class="txt">
+              <div class="zh">上科學課</div>
+              <div class="en">Attend a science class</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part1 item 1">
+            <label class="opt"><input type="radio" name="part1_q1" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part1_q1" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part1_q1" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part1_q1" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">2</div>
+            <div class="txt">
+              <div class="zh">聽音樂</div>
+              <div class="en">Listen to music</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part1 item 2">
+            <label class="opt"><input type="radio" name="part1_q2" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part1_q2" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part1_q2" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part1_q2" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">3</div>
+            <div class="txt">
+              <div class="zh">結識新朋友</div>
+              <div class="en">Make new friends</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part1 item 3">
+            <label class="opt"><input type="radio" name="part1_q3" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part1_q3" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part1_q3" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part1_q3" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">4</div>
+            <div class="txt">
+              <div class="zh">學習安裝及維修電腦</div>
+              <div class="en">Learn to install and repair computers</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part1 item 4">
+            <label class="opt"><input type="radio" name="part1_q4" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part1_q4" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part1_q4" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part1_q4" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">5</div>
+            <div class="txt">
+              <div class="zh">唱歌</div>
+              <div class="en">Sing</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part1 item 5">
+            <label class="opt"><input type="radio" name="part1_q5" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part1_q5" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part1_q5" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part1_q5" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">6</div>
+            <div class="txt">
+              <div class="zh">調解同學間的衝突</div>
+              <div class="en">Mediate conflicts among classmates</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part1 item 6">
+            <label class="opt"><input type="radio" name="part1_q6" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part1_q6" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part1_q6" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part1_q6" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">7</div>
+            <div class="txt">
+              <div class="zh">帶領同學籌辦班會活動</div>
+              <div class="en">Lead classmates to organize class activities</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part1 item 7">
+            <label class="opt"><input type="radio" name="part1_q7" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part1_q7" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part1_q7" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part1_q7" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">8</div>
+            <div class="txt">
+              <div class="zh">飼養小動物</div>
+              <div class="en">Raise / take care of small animals (pets)</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part1 item 8">
+            <label class="opt"><input type="radio" name="part1_q8" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part1_q8" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part1_q8" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part1_q8" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">9</div>
+            <div class="txt">
+              <div class="zh">砌模型</div>
+              <div class="en">Build model kits</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part1 item 9">
+            <label class="opt"><input type="radio" name="part1_q9" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part1_q9" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part1_q9" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part1_q9" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">10</div>
+            <div class="txt">
+              <div class="zh">做科學實驗</div>
+              <div class="en">Do science experiments</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part1 item 10">
+            <label class="opt"><input type="radio" name="part1_q10" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part1_q10" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part1_q10" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part1_q10" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">11</div>
+            <div class="txt">
+              <div class="zh">收集模型或硬幣</div>
+              <div class="en">Collect model figures or coins</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part1 item 11">
+            <label class="opt"><input type="radio" name="part1_q11" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part1_q11" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part1_q11" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part1_q11" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">12</div>
+            <div class="txt">
+              <div class="zh">為課外活動設計或執行宣傳計劃</div>
+              <div class="en">Design or carry out a publicity plan for extracurricular activities</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part1 item 12">
+            <label class="opt"><input type="radio" name="part1_q12" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part1_q12" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part1_q12" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part1_q12" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        </div>
+    </section>
+    
+      
+    <section class="card">
+      <h2><span class="zh">第二部分</span><span class="en">Part 2</span></h2>
+      <p class="muted"><span class="zh">如果您一定要從事這些活動，與你的同學比較，您認為您會比他們做得差還是出色呢？</span><span class="en">If you had to do these activities, compared with your classmates, would you do worse or better?</span></p>
+      <div class="legend">
+        <span class="pill"><span class="zh">1 = 很不喜歡 / 差很多</span><span class="en">1 = Strongly dislike / Much worse</span></span>
+        <span class="pill"><span class="zh">2 = 不喜歡 / 差一點</span><span class="en">2 = Dislike / A bit worse</span></span>
+        <span class="pill"><span class="zh">3 = 喜歡 / 出色一點</span><span class="en">3 = Like / A bit better</span></span>
+        <span class="pill"><span class="zh">4 = 很喜歡 / 出色很多</span><span class="en">4 = Strongly like / Much better</span></span>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div class="stem">
+            <div class="num">1</div>
+            <div class="txt">
+              <div class="zh">聆聽朋友的煩惱及安慰他們</div>
+              <div class="en">Listen to friends’ troubles and comfort them</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part2 item 1">
+            <label class="opt"><input type="radio" name="part2_q1" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part2_q1" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part2_q1" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part2_q1" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">2</div>
+            <div class="txt">
+              <div class="zh">學習修理電器</div>
+              <div class="en">Learn to repair electrical appliances</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part2 item 2">
+            <label class="opt"><input type="radio" name="part2_q2" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part2_q2" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part2_q2" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part2_q2" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">3</div>
+            <div class="txt">
+              <div class="zh">演奏一種樂器</div>
+              <div class="en">Play a musical instrument</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part2 item 3">
+            <label class="opt"><input type="radio" name="part2_q3" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part2_q3" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part2_q3" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part2_q3" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">4</div>
+            <div class="txt">
+              <div class="zh">整理及繪畫統計圖表</div>
+              <div class="en">Organize and draw statistical charts/graphs</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part2 item 4">
+            <label class="opt"><input type="radio" name="part2_q4" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part2_q4" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part2_q4" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part2_q4" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">5</div>
+            <div class="txt">
+              <div class="zh">理解關於科學知識的電視節目</div>
+              <div class="en">Understand TV programs about scientific knowledge</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part2 item 5">
+            <label class="opt"><input type="radio" name="part2_q5" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part2_q5" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part2_q5" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part2_q5" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">6</div>
+            <div class="txt">
+              <div class="zh">畫畫（包括漫畫）</div>
+              <div class="en">Draw (including comics)</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part2 item 6">
+            <label class="opt"><input type="radio" name="part2_q6" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part2_q6" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part2_q6" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part2_q6" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">7</div>
+            <div class="txt">
+              <div class="zh">和別人傾談，以增進對別人的了解</div>
+              <div class="en">Talk with others to better understand them</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part2 item 7">
+            <label class="opt"><input type="radio" name="part2_q7" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part2_q7" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part2_q7" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part2_q7" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">8</div>
+            <div class="txt">
+              <div class="zh">為一個學會招收新會員</div>
+              <div class="en">Recruit new members for a club/society</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part2 item 8">
+            <label class="opt"><input type="radio" name="part2_q8" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part2_q8" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part2_q8" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part2_q8" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">9</div>
+            <div class="txt">
+              <div class="zh">打格鬥遊戲</div>
+              <div class="en">Play fighting/combat video games</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part2 item 9">
+            <label class="opt"><input type="radio" name="part2_q9" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part2_q9" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part2_q9" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part2_q9" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">10</div>
+            <div class="txt">
+              <div class="zh">研究天文學的資料</div>
+              <div class="en">Study information about astronomy</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part2 item 10">
+            <label class="opt"><input type="radio" name="part2_q10" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part2_q10" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part2_q10" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part2_q10" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">11</div>
+            <div class="txt">
+              <div class="zh">宣傳一個新成立的學會</div>
+              <div class="en">Promote a newly established club/society</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part2 item 11">
+            <label class="opt"><input type="radio" name="part2_q11" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part2_q11" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part2_q11" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part2_q11" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">12</div>
+            <div class="txt">
+              <div class="zh">計算班會活動需要的食物、飲料和其他物資</div>
+              <div class="en">Calculate the food, drinks, and other supplies needed for a class activity</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part2 item 12">
+            <label class="opt"><input type="radio" name="part2_q12" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part2_q12" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part2_q12" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part2_q12" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        </div>
+    </section>
+    
+      
+    <section class="card">
+      <h2><span class="zh">第三部分</span><span class="en">Part 3</span></h2>
+      <p class="muted"><span class="zh">以下是不同類型的工作，你有多喜歡這些工作呢？（請假設所有工作的薪酬福利都是一樣。）</span><span class="en">Below are different jobs. How much do you like these jobs? (Assume all jobs have the same pay and benefits.)</span></p>
+      <div class="legend">
+        <span class="pill"><span class="zh">1 = 很不喜歡 / 差很多</span><span class="en">1 = Strongly dislike / Much worse</span></span>
+        <span class="pill"><span class="zh">2 = 不喜歡 / 差一點</span><span class="en">2 = Dislike / A bit worse</span></span>
+        <span class="pill"><span class="zh">3 = 喜歡 / 出色一點</span><span class="en">3 = Like / A bit better</span></span>
+        <span class="pill"><span class="zh">4 = 很喜歡 / 出色很多</span><span class="en">4 = Strongly like / Much better</span></span>
+      </div>
+      <div class="items">
+        <div class="item">
+          <div class="stem">
+            <div class="num">1</div>
+            <div class="txt">
+              <div class="zh">巴士司機</div>
+              <div class="en">Bus driver</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part3 item 1">
+            <label class="opt"><input type="radio" name="part3_q1" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part3_q1" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part3_q1" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part3_q1" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">2</div>
+            <div class="txt">
+              <div class="zh">作曲家</div>
+              <div class="en">Composer</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part3 item 2">
+            <label class="opt"><input type="radio" name="part3_q2" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part3_q2" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part3_q2" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part3_q2" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">3</div>
+            <div class="txt">
+              <div class="zh">銀行櫃位員</div>
+              <div class="en">Bank teller</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part3 item 3">
+            <label class="opt"><input type="radio" name="part3_q3" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part3_q3" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part3_q3" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part3_q3" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">4</div>
+            <div class="txt">
+              <div class="zh">古蹟遺址考古工作</div>
+              <div class="en">Archaeological work at historical sites</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part3 item 4">
+            <label class="opt"><input type="radio" name="part3_q4" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part3_q4" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part3_q4" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part3_q4" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">5</div>
+            <div class="txt">
+              <div class="zh">四星級酒店的經理</div>
+              <div class="en">Manager of a four-star hotel</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part3 item 5">
+            <label class="opt"><input type="radio" name="part3_q5" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part3_q5" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part3_q5" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part3_q5" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">6</div>
+            <div class="txt">
+              <div class="zh">會計從業員</div>
+              <div class="en">Accounting professional</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part3 item 6">
+            <label class="opt"><input type="radio" name="part3_q6" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part3_q6" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part3_q6" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part3_q6" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">7</div>
+            <div class="txt">
+              <div class="zh">修理飛機的技術員</div>
+              <div class="en">Aircraft maintenance technician</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part3 item 7">
+            <label class="opt"><input type="radio" name="part3_q7" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part3_q7" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part3_q7" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part3_q7" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">8</div>
+            <div class="txt">
+              <div class="zh">話劇作家</div>
+              <div class="en">Playwright</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part3 item 8">
+            <label class="opt"><input type="radio" name="part3_q8" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part3_q8" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part3_q8" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part3_q8" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">9</div>
+            <div class="txt">
+              <div class="zh">註冊社工</div>
+              <div class="en">Registered social worker</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part3 item 9">
+            <label class="opt"><input type="radio" name="part3_q9" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part3_q9" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part3_q9" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part3_q9" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">10</div>
+            <div class="txt">
+              <div class="zh">托兒中心的主任</div>
+              <div class="en">Head of a childcare center</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part3 item 10">
+            <label class="opt"><input type="radio" name="part3_q10" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part3_q10" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part3_q10" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part3_q10" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">11</div>
+            <div class="txt">
+              <div class="zh">天文台氣象分析員</div>
+              <div class="en">Observatory meteorological analyst</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part3 item 11">
+            <label class="opt"><input type="radio" name="part3_q11" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part3_q11" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part3_q11" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part3_q11" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        
+        <div class="item">
+          <div class="stem">
+            <div class="num">12</div>
+            <div class="txt">
+              <div class="zh">經營連鎖快餐店的經理</div>
+              <div class="en">Manager of a fast-food chain</div>
+            </div>
+          </div>
+          <div class="choices" role="radiogroup" aria-label="part3 item 12">
+            <label class="opt"><input type="radio" name="part3_q12" value="1" required><span>1</span></label><label class="opt"><input type="radio" name="part3_q12" value="2" required><span>2</span></label><label class="opt"><input type="radio" name="part3_q12" value="3" required><span>3</span></label><label class="opt"><input type="radio" name="part3_q12" value="4" required><span>4</span></label>
+          </div>
+        </div>
+        </div>
+    </section>
+    
+
+      <div class="card">
+        <h2><span class="zh">提交與計分</span><span class="en">Submit & Score</span></h2>
+        <div class="actions">
+          <button id="btnScore"><span class="zh">計分</span><span class="en">Score</span></button>
+          <button id="btnReset" class="secondary"><span class="zh">清除答案</span><span class="en">Reset</span></button>
+        </div>
+        <div class="footer">
+          <span class="zh">量表採用 1–4 分。每個類型在「每部份」各有 2 題 → 三部份合共 6 題。</span>
+          <span class="en">Scale: 1–4. Each type has 2 items in each part → 6 items total across 3 parts.</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" id="results">
+        <h2><span class="zh">結果</span><span class="en">Results</span></h2>
+        <div class="muted tiny"><span class="zh">完成所有題目後按「計分」。</span><span class="en">After answering all items, click “Score”.</span></div>
+
+<div class="notice warn tiny" id="hideNote" style="margin-top:10px;">
+  <b><span class="zh">結果會在按「計分」後顯示。</span><span class="en">Results will be revealed after you click “Score”.</span></b>
+</div>
+
+<div class="reveal-results" id="resultsHiddenWrap">
+<hr/>
+        <div class="kpis">
+          <div class="kpi">
+            <div class="label"><span class="zh">最高分</span><span class="en">Highest</span></div>
+            <div class="val" id="top1">—</div>
+            <div class="tiny muted" id="top1name">—</div>
+          </div>
+          <div class="kpi">
+            <div class="label"><span class="zh">第二高</span><span class="en">Second</span></div>
+            <div class="val" id="top2">—</div>
+            <div class="tiny muted" id="top2name">—</div>
+          </div>
+          <div class="kpi">
+            <div class="label"><span class="zh">第三高</span><span class="en">Third</span></div>
+            <div class="val" id="top3">—</div>
+            <div class="tiny muted" id="top3name">—</div>
+          </div>
+          <div class="kpi">
+            <div class="label"><span class="zh">你的 RIASEC Code</span><span class="en">Your RIASEC Code</span></div>
+            <div class="val" id="code">—</div>
+            <div class="tiny muted"><span class="zh">（最高三個類型）</span><span class="en">(Top 3 types)</span></div>
+          </div>
+        </div>
+
+        <div class="typeGrid" style="margin-top:12px;">
+          
+    <div class="typeCard" id="card_R">
+      <div class="typeHead">
+        <div class="typeCode">R</div>
+        <div>
+          <div class="typeName"><span class="zh">實務性</span><span class="en">Realistic</span></div>
+          <div class="muted tiny"><span class="zh">得分：</span><span class="en">Score:</span> <span class="mono" id="score_R">—</span></div>
+        </div>
+      </div>
+      <div class="typeBody">
+        <div class="tiny muted"><span class="zh">特徵：</span><span class="en">Characteristics:</span></div>
+        <ul class="bul">
+          <li><span class="zh">喜歡以物、機械工作等為對象</span><span class="en">Prefer working with objects, tools, machines, and practical tasks</span></li><li><span class="zh">有規則的、明確的、有序的、系統的活動</span><span class="en">Like structured, clear, orderly, and systematic activities</span></li><li><span class="zh">須具備與手、機械、電氣技術等有關的能力</span><span class="en">Require abilities related to hands-on, mechanical, or electrical skills</span></li><li><span class="zh">性格往往具體、順應、札實，但社交能力比較缺乏的</span><span class="en">Often practical and down-to-earth; social skills may be relatively weaker</span></li>
+        </ul>
+        <div class="tiny muted" style="margin-top:10px;"><span class="zh">合適的工作類別：</span><span class="en">Suitable work categories:</span></div>
+        <ul class="bul">
+          <li><span class="zh">技能性及技術性工作為主</span><span class="en">Mainly skilled and technical work</span></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="typeCard" id="card_I">
+      <div class="typeHead">
+        <div class="typeCode">I</div>
+        <div>
+          <div class="typeName"><span class="zh">考究性</span><span class="en">Investigative</span></div>
+          <div class="muted tiny"><span class="zh">得分：</span><span class="en">Score:</span> <span class="mono" id="score_I">—</span></div>
+        </div>
+      </div>
+      <div class="typeBody">
+        <div class="tiny muted"><span class="zh">特徵：</span><span class="en">Characteristics:</span></div>
+        <ul class="bul">
+          <li><span class="zh">分析型、有智慧的、有探究心的、內省的</span><span class="en">Analytical, intellectual, inquisitive, and reflective</span></li><li><span class="zh">主要透過實驗或調查、觀察及分析和歸納問題</span><span class="en">Solve problems through investigation, observation, analysis, and inference</span></li><li><span class="zh">將科技實際應用在現實的生活上</span><span class="en">Apply scientific knowledge and technology to real life</span></li>
+        </ul>
+        <div class="tiny muted" style="margin-top:10px;"><span class="zh">合適的工作類別：</span><span class="en">Suitable work categories:</span></div>
+        <ul class="bul">
+          <li><span class="zh">與研究及應用科學有關，研究的對象可以是自然或社會經濟現象</span><span class="en">Research and applied science (natural or socio-economic topics)</span></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="typeCard" id="card_A">
+      <div class="typeHead">
+        <div class="typeCode">A</div>
+        <div>
+          <div class="typeName"><span class="zh">藝術性</span><span class="en">Artistic</span></div>
+          <div class="muted tiny"><span class="zh">得分：</span><span class="en">Score:</span> <span class="mono" id="score_A">—</span></div>
+        </div>
+      </div>
+      <div class="typeBody">
+        <div class="tiny muted"><span class="zh">特徵：</span><span class="en">Characteristics:</span></div>
+        <ul class="bul">
+          <li><span class="zh">具有想像、衝動、直覺、無秩序、情緒化、理想化、有創意、不重實際的</span><span class="en">Imaginative, intuitive, creative; may be less structured or practical</span></li><li><span class="zh">須充分發揮自己的藝術天分、創作意念和想像力</span><span class="en">Need opportunities to express artistic talent, ideas, and imagination</span></li>
+        </ul>
+        <div class="tiny muted" style="margin-top:10px;"><span class="zh">合適的工作類別：</span><span class="en">Suitable work categories:</span></div>
+        <ul class="bul">
+          <li><span class="zh">包括音樂、美術及設計等工作</span><span class="en">Music, fine arts, design, and related work</span></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="typeCard" id="card_S">
+      <div class="typeHead">
+        <div class="typeCode">S</div>
+        <div>
+          <div class="typeName"><span class="zh">社會性</span><span class="en">Social</span></div>
+          <div class="muted tiny"><span class="zh">得分：</span><span class="en">Score:</span> <span class="mono" id="score_S">—</span></div>
+        </div>
+      </div>
+      <div class="typeBody">
+        <div class="tiny muted"><span class="zh">特徵：</span><span class="en">Characteristics:</span></div>
+        <ul class="bul">
+          <li><span class="zh">合作、友善、助人、負責任、圓滑、善予社交言談、善解人意的</span><span class="en">Cooperative, friendly, helpful, responsible, socially skilled, empathetic</span></li>
+        </ul>
+        <div class="tiny muted" style="margin-top:10px;"><span class="zh">合適的工作類別：</span><span class="en">Suitable work categories:</span></div>
+        <ul class="bul">
+          <li><span class="zh">醫療保健、教育、傳播及社會福利等工作</span><span class="en">Healthcare, education, communication, and social welfare</span></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="typeCard" id="card_E">
+      <div class="typeHead">
+        <div class="typeCode">E</div>
+        <div>
+          <div class="typeName"><span class="zh">企業性</span><span class="en">Enterprising</span></div>
+          <div class="muted tiny"><span class="zh">得分：</span><span class="en">Score:</span> <span class="mono" id="score_E">—</span></div>
+        </div>
+      </div>
+      <div class="typeBody">
+        <div class="tiny muted"><span class="zh">特徵：</span><span class="en">Characteristics:</span></div>
+        <ul class="bul">
+          <li><span class="zh">喜歡冒險、精力充沛、善予社交、自信心強</span><span class="en">Adventurous, energetic, sociable, confident</span></li><li><span class="zh">強烈關注目標的追求、喜歡從事為獲得利益而操縱、驅動別人的活動</span><span class="en">Goal-focused; enjoy persuading, influencing, and leading others to achieve gains</span></li><li><span class="zh">主導性及說服能力強</span><span class="en">Strong leadership and persuasion skills</span></li>
+        </ul>
+        <div class="tiny muted" style="margin-top:10px;"><span class="zh">合適的工作類別：</span><span class="en">Suitable work categories:</span></div>
+        <ul class="bul">
+          <li><span class="zh">適合從事領導或企業策劃管理、銷售、貿易</span><span class="en">Leadership/management, business planning, sales, trade</span></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="typeCard" id="card_C">
+      <div class="typeHead">
+        <div class="typeCode">C</div>
+        <div>
+          <div class="typeName"><span class="zh">常規性</span><span class="en">Conventional</span></div>
+          <div class="muted tiny"><span class="zh">得分：</span><span class="en">Score:</span> <span class="mono" id="score_C">—</span></div>
+        </div>
+      </div>
+      <div class="typeBody">
+        <div class="tiny muted"><span class="zh">特徵：</span><span class="en">Characteristics:</span></div>
+        <ul class="bul">
+          <li><span class="zh">順從、謹慎、保守、實際、穏重、有效率、善予自我控制</span><span class="en">Careful, practical, steady, efficient, and self-controlled</span></li><li><span class="zh">喜從事記錄、整理檔案資料、操作辦公室文儀、處理數據、有系統及有條理的活動</span><span class="en">Prefer recording/organizing data, clerical tasks, and systematic, orderly activities</span></li>
+        </ul>
+        <div class="tiny muted" style="margin-top:10px;"><span class="zh">合適的工作類別：</span><span class="en">Suitable work categories:</span></div>
+        <ul class="bul">
+          <li><span class="zh">適合會計師、一般事務、文書工作等</span><span class="en">Accounting, general administration, clerical work</span></li>
+        </ul>
+      </div>
+    </div>
+    
+        </div>
+
+        <div class="footer">
+          <b><span class="zh">延伸資源：</span><span class="en">More resources:</span></b><br/>
+          <span class="zh">CPCE 輔導服務「心理自我測試角」</span><span class="en">CPCE CSAO Psychological Self-Test Corner</span><br/>
+          <span class="smalllink">https://sao.cpce-polyu.edu.hk/en/our-services/counselling-services/psychological-self-test-corner/index.html</span><br/><br/>
+          Farh (1998) – Cross-Cultural Validity of Holland’s Model in Hong Kong<br/>
+          <span class="smalllink">https://pdfs.semanticscholar.org/8406/3761f569cd3add4764b7a57ed14b6c0a3e74.pdf</span>
+        </div>
+      </div>
+    </div>
+  </div><!-- /reveal-results -->
+</div>
+
+  <div class="footer">
+    © 2026 May Poon（教學用途）｜<span class="zh">本頁不儲存或傳送你的作答內容。</span><span class="en">This page does not store or send your responses.</span>
+  </div>
+</div>
+
+<script>
+const TYPES = {"R": {"zh": "實務性", "en": "Realistic"}, "I": {"zh": "考究性", "en": "Investigative"}, "A": {"zh": "藝術性", "en": "Artistic"}, "S": {"zh": "社會性", "en": "Social"}, "E": {"zh": "企業性", "en": "Enterprising"}, "C": {"zh": "常規性", "en": "Conventional"}};
+const MAPS = {"part1": {"R": [4, 9], "I": [1, 10], "A": [2, 5], "S": [3, 6], "E": [7, 12], "C": [8, 11]}, "part2": {"R": [2, 9], "I": [5, 10], "A": [3, 6], "S": [1, 7], "E": [8, 11], "C": [4, 12]}, "part3": {"R": [1, 7], "I": [4, 11], "A": [2, 8], "S": [9, 10], "E": [5, 12], "C": [3, 6]}};
+
+// Build an item->type map for each part
+function invertMap(m){
+  const out={};
+  for (const [type, nums] of Object.entries(m)){
+    nums.forEach(n=> out[n]=type);
+  }
+  return out;
+}
+const PART_ITEM_TO_TYPE = {
+  part1: invertMap(MAPS.part1),
+  part2: invertMap(MAPS.part2),
+  part3: invertMap(MAPS.part3),
+};
+
+function getAnswer(name){
+  const el = document.querySelector(`input[name="${CSS.escape(name)}"]:checked`);
+  return el ? Number(el.value) : null;
+}
+
+function scorePart(partId, itemToType){
+  const scores = {R:0,I:0,A:0,S:0,E:0,C:0};
+  const missing=[];
+  for (let i=1;i<=12;i++) {
+    const qname = `${partId}_q${i}`;
+    const v = getAnswer(qname);
+    if (v===null) { missing.push(qname); continue; }
+    const type = itemToType[i];
+    scores[type] += v;
+  }
+  return {scores, missing};
+}
+
+function mergeScores(a,b){
+  const out={R:0,I:0,A:0,S:0,E:0,C:0};
+  for (const k of Object.keys(out)) out[k]=(a[k]||0)+(b[k]||0);
+  return out;
+}
+
+function setText(id, txt){ const el=document.getElementById(id); if(el) el.textContent = txt; }
+
+function updateUI(scores){
+  document.body.classList.add("scored");
+  const hn=document.getElementById("hideNote"); if(hn) hn.style.display="none";
+
+  // per-type
+  for (const k of Object.keys(scores)) setText(`score_${k}`, String(scores[k]));
+
+  const ranked = Object.entries(scores).sort((x,y)=> y[1]-x[1]);
+  const top = ranked.slice(0,3);
+
+  function label(k){ return document.body.classList.contains("show-en")
+      ? `${k} - ${TYPES[k].en}`
+      : `${k} - ${TYPES[k].zh}`; }
+
+  setText("top1", `${top[0][0]}：${top[0][1]}`);
+  setText("top1name", label(top[0][0]));
+  setText("top2", `${top[1][0]}：${top[1][1]}`);
+  setText("top2name", label(top[1][0]));
+  setText("top3", `${top[2][0]}：${top[2][1]}`);
+  setText("top3name", label(top[2][0]));
+
+  setText("code", top.map(x=>x[0]).join(""));
+
+  document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+document.getElementById("btnScore").addEventListener("click", ()=>{
+  const s1 = scorePart("part1", PART_ITEM_TO_TYPE.part1);
+  const s2 = scorePart("part2", PART_ITEM_TO_TYPE.part2);
+  const s3 = scorePart("part3", PART_ITEM_TO_TYPE.part3);
+
+  const missing = [...s1.missing, ...s2.missing, ...s3.missing];
+  if (missing.length) {
+    alert(document.body.classList.contains("show-en")
+      ? `You still have ${missing.length} unanswered item(s). Please complete all items before scoring.`
+      : `你尚有 ${missing.length} 題未完成。請完成所有題目後再按計分。`
+    );
+    const first = missing[0];
+    const q = document.querySelector(`input[name="${CSS.escape(first)}"]`);
+    if (q) q.scrollIntoView({behavior:"smooth", block:"center"});
+    return;
+  }
+
+  const total = mergeScores(mergeScores(s1.scores, s2.scores), s3.scores);
+  updateUI(total);
+});
+
+document.getElementById("btnReset").addEventListener("click", ()=>{
+  const ok = confirm(document.body.classList.contains("show-en")
+    ? "Reset and clear all answers?"
+    : "確定要清除所有答案嗎？"
+  );
+  if(!ok) return;
+  document.querySelectorAll('input[type="radio"]').forEach(el=> el.checked=false);
+  document.body.classList.remove("scored");
+  const hn=document.getElementById("hideNote"); if(hn) hn.style.display="block";
+
+  ["top1","top2","top3","top1name","top2name","top3name","code"].forEach(id=>setText(id,"—"));
+  ["R","I","A","S","E","C"].forEach(k=>setText(`score_${k}`,"—"));
+  window.scrollTo({top:0, behavior:"smooth"});
+});
+
+// language toggle
+function setLang(lang){
+  const zhBtn=document.getElementById("btnZh");
+  const enBtn=document.getElementById("btnEn");
+  if(lang==="en") {
+    document.body.classList.add("show-en");
+    enBtn.classList.add("active");
+    zhBtn.classList.remove("active");
+  } else {
+    document.body.classList.remove("show-en");
+    zhBtn.classList.add("active");
+    enBtn.classList.remove("active");
+  }
+  // refresh label texts for ranking if already scored
+  const hasScore = document.getElementById("code").textContent !== "—";
+  if(hasScore) {
+    const scores={R:0,I:0,A:0,S:0,E:0,C:0};
+    for(const k of Object.keys(scores)) {
+      const v=document.getElementById(`score_${k}`).textContent;
+      scores[k]=Number(v)||0;
+    }
+    updateUI(scores);
+  }
+}
+document.getElementById("btnZh").addEventListener("click", ()=>setLang("zh"));
+document.getElementById("btnEn").addEventListener("click", ()=>setLang("en"));
+</script>
+<footer class="site-footer" style="margin-top:18px; padding-top:14px; border-top:1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.72); font-size:12px; line-height:1.6;">
+  <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:space-between; align-items:flex-start;">
+    <div>
+      <div style="font-weight:800; color: rgba(255,255,255,.86);">May Poon 潘美</div>
+      <div>Hong Kong Community College (CPCE, PolyU) 香港專上學院（理大 CPCE）</div>
+      <div>Contact / 聯絡：<span style="opacity:.9;">[edit me]</span></div>
+    </div>
+    <div style="max-width:520px;">
+      <div style="font-weight:800; color: rgba(255,255,255,.86);">Use & Privacy / 用途與私隱</div>
+      <div>For classroom learning and reflection. This site does not collect answers. / 僅供課堂學習與反思，本網站不會收集作答內容。</div>
+    </div>
+  </div>
+  <div style="margin-top:10px; opacity:.8;">© 2026 May Poon. Teaching use only. / 教學用途。</div>
+</footer>
+</body>
+</html>
