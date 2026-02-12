@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>NEO Big Five (60) – Bilingual</title>
+<title>IPIP-NEO-60 Big Five – Bilingual</title>
 <style>
 :root{
   --bg:#0b1020; --muted:rgba(255,255,255,.72); --muted2:rgba(255,255,255,.55);
@@ -12,7 +12,8 @@
 *{box-sizing:border-box}
 body{
   margin:0;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial,
+    "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
   background:
     radial-gradient(1200px 600px at 20% 0%, rgba(122,162,255,.25), transparent 55%),
     radial-gradient(900px 500px at 80% 10%, rgba(61,220,151,.18), transparent 55%),
@@ -78,54 +79,34 @@ button:hover{background:rgba(255,255,255,.09)}
 .choices{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .opt{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.02);cursor:pointer;user-select:none}
 .opt input{accent-color:rgba(122,162,255,.9)}
-.score{
-  font-weight:900;
-  font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.12);padding:1px 7px;border-radius:999px
-}
 
 .hidden{display:none}
-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
-th,td{border-bottom:1px solid rgba(255,255,255,.12);padding:8px;text-align:left}
-th{color:rgba(255,255,255,.86)}
 .langToggle{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:10px}
 .langBtn{padding:8px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.06); cursor:pointer; font-weight:900}
 .langBtn.active{border-color: rgba(122,162,255,.55); background:rgba(122,162,255,.14)}
+
+.small{font-size:12px;color:rgba(255,255,255,.72)}
+hr.sep{border:0;border-top:1px solid rgba(255,255,255,.14);margin:14px 0}
 </style>
 </head>
+
 <body>
 <div class="wrap">
   <div class="hero">
-    <h1 id="title">NEO Big Five (Short Form — 60 items)</h1>
-    <div class="sub" id="subtitle">Choose one option for each statement using the scale below (SD → SA).</div>
+    <h1 id="title">IPIP-NEO-60 Big Five (Public Domain) — 60 items</h1>
+    <div class="sub" id="subtitle">Rate how accurately each statement describes you (1 → 5).</div>
 
     <div class="langToggle" aria-label="Language toggle">
       <span class="pill" id="langLabel">Language / 語言</span>
       <button class="langBtn" type="button" id="btnEN">English</button>
-      <button class="langBtn" type="button" id="btnZH">中文</button>
+      <button class="langBtn" type="button" id="btnZH">繁體中文</button>
     </div>
 
     <div class="sub" id="scaleLine">
-      <span class="pill">SD</span><span class="pill">D</span><span class="pill">N</span><span class="pill">A</span><span class="pill">SA</span>
+      <span class="pill">1</span><span class="pill">2</span><span class="pill">3</span><span class="pill">4</span><span class="pill">5</span>
+      <span class="pill" id="scaleExplain">Very Inaccurate → Very Accurate</span>
     </div>
-<div class="note" id="scaleLegend">
-  <span class="enOnly">
-    <b>Response scale:</b>
-    SD = Strongly Disagree,
-    D = Disagree,
-    N = Neutral,
-    A = Agree,
-    SA = Strongly Agree.
-  </span>
-  <span class="zhOnly">
-    <b>作答量表：</b>
-    SD＝非常不同意，
-    D＝不同意，
-    N＝中立，
-    A＝同意，
-    SA＝非常同意。
-  </span>
-</div>
+
     <nav class="shared-nav" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:10px;">
       <a href="index.html" style="text-decoration:none; color:#fff; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.06); padding:8px 10px; border-radius:999px; display:inline-flex; gap:8px; align-items:center;">
         <span style="font-weight:800;">Home</span><span style="opacity:.75;">主頁</span>
@@ -142,135 +123,215 @@ th{color:rgba(255,255,255,.86)}
     </nav>
 
     <div class="note" id="scoringNote">
-      <b>Scoring:</b> use the <b>numbers in the bubbles (0–4)</b> for each item, then add the 12 items in each column (same column / 直行) to get 5 totals.
+      <b>Scoring:</b> Your trait scores will be shown as <b>mean scores (1–5)</b> after you press <b>Score</b>. Reverse-keyed items are handled automatically.
     </div>
 
     <div class="row">
       <span class="pill" id="answeredPill">Answered: <span id="countDone">0</span>/60</span>
-      <span class="pill" id="maxPill">Max per column: 12 × 4 = 48</span>
       <span class="pill" id="privacyPill">This page does not upload answers (browser-only).</span>
+      <span class="pill" id="pdPill">Public-domain items (IPIP).</span>
     </div>
 
     <div class="progress"><div id="bar" class="bar"></div></div>
 
-    <div class="kpis" aria-label="Column totals">
-      <div class="kpi"><div class="lab">N</div><div class="val" id="outN">—</div></div>
-      <div class="kpi"><div class="lab">E</div><div class="val" id="outE">—</div></div>
-      <div class="kpi"><div class="lab">O</div><div class="val" id="outO">—</div></div>
-      <div class="kpi"><div class="lab">A</div><div class="val" id="outA">—</div></div>
-      <div class="kpi"><div class="lab">C</div><div class="val" id="outC">—</div></div>
+    <div class="note" id="liveHideNote" style="margin-top:10px">
+      <span class="enOnly"><b>During answering:</b> trait scores are hidden. They will appear after you press <b>Score</b>.</span>
+      <span class="zhOnly"><b>作答期間：</b>五大向度分數會先隱藏，按下 <b>計分</b> 後才會顯示。</span>
+    </div>
+
+    <div class="kpis" aria-label="Trait mean scores">
+      <div class="kpi"><div class="lab" id="labN">N</div><div class="val" id="outN">—</div></div>
+      <div class="kpi"><div class="lab" id="labE">E</div><div class="val" id="outE">—</div></div>
+      <div class="kpi"><div class="lab" id="labO">O</div><div class="val" id="outO">—</div></div>
+      <div class="kpi"><div class="lab" id="labA">A</div><div class="val" id="outA">—</div></div>
+      <div class="kpi"><div class="lab" id="labC">C</div><div class="val" id="outC">—</div></div>
     </div>
 
     <div class="actions">
       <button type="button" id="btnReview">Review unanswered</button>
       <button type="button" class="danger" id="btnReset">Reset</button>
-      <button type="button" class="primary" id="btnScore">Score &amp; show norms</button>
+      <button type="button" class="primary" id="btnScore">Score</button>
     </div>
 
     <div id="result" class="note hidden" style="margin-top:14px; border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); border-radius:18px; padding:14px;">
-      <div style="font-weight:900; color: rgba(255,255,255,.9);" id="resultTitle">Results (revealed after scoring)</div>
-      <div class="note" style="margin-top:6px" id="groupLine">
-        Select comparison group:
-        <label style="margin-left:10px"><input type="radio" name="sex" value="male" checked> Male college</label>
-        <label style="margin-left:10px"><input type="radio" name="sex" value="female"> Female college</label>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th id="thDim">Dimension</th>
-            <th id="thYou">Your total</th>
-            <th id="thNorm">Norm mean (SD)</th>
-            <th id="thZ">z</th>
-            <th id="thPct">Approx. percentile</th>
-          </tr>
-        </thead>
-        <tbody id="normRows"></tbody>
-      </table>
-      <div class="note" style="margin-top:10px" id="teacherNote">
-        <b>Teacher note:</b> Discuss interpretation only after students finish to reduce demand characteristics.
-      </div>
+      <div style="font-weight:900; color: rgba(255,255,255,.9);" id="resultTitle">Results</div>
+      <div class="small" id="resultNote">Means (1–5) are shown. Interpret cautiously; context & culture matter.</div>
+      <hr class="sep"/>
+      <div class="small" id="interpHint"></div>
     </div>
 
-    <footer id="siteFooter" class="site-footer hidden" style="margin-top:18px; padding-top:14px; border-top:1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.72); font-size:12px; line-height:1.6;">
+    <footer id="siteFooter" class="site-footer" style="margin-top:18px; padding-top:14px; border-top:1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.72); font-size:12px; line-height:1.6;">
       <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:space-between; align-items:flex-start;">
         <div>
-          <div style="font-weight:800; color: rgba(255,255,255,.86);">May Poon 潘美蘭</div>
-          <div>Contact / 聯絡：<span style="opacity:.9;">[WhatsApp only: 6639-5535]</span></div>
-        </div>
-        <div style="max-width:520px;">
-          <div style="font-weight:800; color: rgba(255,255,255,.86);">Use &amp; Privacy / 用途與私隱</div>
+          <div style="font-weight:800; color: rgba(255,255,255,.86);">Dr May Poon 潘美蘭博士</div>
+          <div>
           <div id="footerPrivacy">For classroom learning and reflection. This site does not collect answers. / 僅供課堂學習與反思，本網站不會收集作答內容。</div>
+        </div>
+        <div style="max-width:560px;">
+          <div style="font-weight:800; color: rgba(255,255,255,.86);" id="attribTitle">Attribution</div>
+          <div id="attribText">
+            This instrument is based on public-domain items from the International Personality Item Pool (IPIP).<br/>
+            Goldberg, L. R. (1992). The development of markers for the Big-Five factor structure.<br/>
+            Items retrieved from https://ipip.ori.org
+          </div>
         </div>
       </div>
       <div style="margin-top:10px; opacity:.8;">© 2026 May Poon. Teaching use only. / 教學用途。</div>
     </footer>
   </div>
 
-  <div id="grid" class="grid5" aria-label="NEO items grid"></div>
+  <div id="grid" class="grid5" aria-label="IPIP-NEO-60 items grid"></div>
 </div>
 
 <script>
-const ITEMS_EN = {"1": "I am not a worrier.", "2": "I like to have a lot of people around me.", "3": "I don’t like to waste my time daydreaming.", "4": "I try to be courteous to everyone I meet.", "5": "I keep my belongings neat and clean.", "6": "I often feel inferior to others.", "7": "I laugh easily.", "8": "Once I find the right way to do something, I stick to it.", "9": "I often get into arguments with my family and co-workers.", "10": "I’m pretty good about pacing myself so as to get things done on time.", "11": "When I’m under a great deal of stress, sometimes I feel like I’m going to pieces.", "12": "I don’t consider myself especially “light-hearted.”", "13": "I am intrigued by the patterns I find in art and nature.", "14": "Some people think I’m selfish and egotistical.", "15": "I am not a very methodical person.", "16": "I rarely feel lonely or blue.", "17": "I really enjoy talking to people.", "18": "I believe letting students hear controversial speakers can only confuse and mislead them.", "19": "I would rather cooperate with others than compete with them.", "20": "I try to perform all the tasks assigned to me conscientiously.", "21": "I often feel tense and jittery.", "22": "I like to be where the action is.", "23": "Poetry has little or no effect on me.", "24": "I tend to be cynical and skeptical of others’ intentions.", "25": "I have a clear set of goals and work toward them in an orderly fashion.", "26": "Sometimes I feel completely worthless.", "27": "I usually prefer to do things alone.", "28": "I often try new and foreign foods.", "29": "I believe that most people will take advantage of you if you let them.", "30": "I waste a lot of time before settling down to work.", "31": "I rarely feel fearful or anxious.", "32": "I often feel as if I’m bursting with energy.", "33": "I seldom notice the moods or feelings that different environments produce.", "34": "Most people I know like me.", "35": "I work hard to accomplish my goals.", "36": "I often get angry at the way people treat me.", "37": "I am a cheerful, high-spirited person.", "38": "I believe we should look to our religious authorities for decisions on moral issues.", "39": "Some people think of me as cold and calculating.", "40": "When I make a commitment, I can always be counted on to follow through.", "41": "Too often, when things go wrong, I get discouraged and feel like giving up.", "42": "I am not a cheerful optimist.", "43": "Sometimes when I am reading poetry or looking at a work of art, I feel a chill or wave of excitement.", "44": "I’m hard-headed and tough-minded in my attitudes.", "45": "Sometimes I’m not as dependable or reliable as I should be.", "46": "I am seldom sad or depressed.", "47": "My life is fast-paced.", "48": "I have little interest in speculating on the nature of the universe or the human condition.", "49": "I generally try to be thoughtful and considerate.", "50": "I am a productive person who always gets the job done.", "51": "I often feel helpless and want someone else to solve my problems.", "52": "I am a very active person.", "53": "I have a lot of intellectual curiosity.", "54": "If I don’t like people, I let them know it.", "55": "I never seem to be able to get organized.", "56": "At times I have been so ashamed I just wanted to hide.", "57": "I would rather go my own way than be a leader of others.", "58": "I often enjoy playing with theories or abstract ideas.", "59": "If necessary, I am willing to manipulate people to get what I want.", "60": "I strive for excellence in everything I do."};
-const ITEMS_ZH = {"1": "我不是一個充滿煩惱的人。", "2": "我喜歡很多人在我附近。", "3": "我不喜歡花時間於白日夢中。", "4": "我真的喜歡大部份我遇見的人。", "5": "我會保持我的物件整潔及整齊。", "6": "我很多時感到自己不如別人。", "7": "我很易笑。", "8": "當我找到了一幹一件事情的正確辦法後，我會堅持採用這個辦法。", "9": "我很多時與家人及同事爭論。", "10": "我頗能按照我的步伐，把事情辦妥。", "11": "當我處於極大壓力，我有時會感到好像精神崩潰似的。", "12": "我並不覺得我自己特別輕鬆、無憂無慮。", "13": "大自然和藝術的規律形態使我感到極為奧妙。", "14": "有些人覺得我自私及自我中心。", "15": "我並非一個做事有條不紊的人。", "16": "我很少感到寂寞或寂寥。", "17": "我很喜歡與別人交談。", "18": "我相信讓學生聽講者富爭論性的演講只會混淆及誤導他們的思想。", "19": "我寧願與人合作，多於與人競爭。", "20": "我會盡責地完成一切分派給我的工作。", "21": "我經常感到緊張和心神不定。", "22": "我喜歡置身於刺激的事件之中。", "23": "我對詩詞只有少許感覺甚至無動於衷。", "24": "我會懷疑及議論別人的意圖。", "25": "我有一套目標，並能有次序地朝著它而工作。", "26": "有時我感到自己完全一錢不值。", "27": "我一向喜歡單獨工作。", "28": "我很多時嘗試新的及外國的食物。", "29": "我相信如果你容許別人利用你，很多人都會這樣做。", "30": "我要花很多時間方能安頓下來工作。", "31": "我甚少感到恐懼及焦慮。", "32": "我很多時感到精力旺盛。", "33": "我甚少注意不同環境所引發的情緒或感覺。", "34": "大部份認識我的人都喜歡我。", "35": "我努力完成我的目標。", "36": "我很多時會因他人對待我的方式而感到憤怒。", "37": "我是一個快樂、富興的人。", "38": "我相信在為這德問題做決定時，我們應遵從宗教標準的判決。", "39": "有些人覺得我冷冰，有陰謀。", "40": "當我許下允諾後，別人會相信我會把事情辦妥。", "41": "很多時當事情不對勁時，我會感到挫敗及惱怒放棄。", "42": "我並不是一個快樂的樂觀者。", "43": "當我閱讀一首詩或觀看一件藝術品時，我有時會感到興奮或驚喜。", "44": "我的態度是講求實際和不感情用事。", "45": "我有時沒有我應有的可靠或可信。", "46": "我很少感到憂慮及沮喪。", "47": "我的生活步伐很快。", "48": "我沒有更惡意思索宇宙的規律及情況。", "49": "我通常會盡量體貼及顧慮周到。", "50": "我是一個多產及能把工作做好的。", "51": "我很多時感到無助，並希望有人能解決我的問題。", "52": "我是一個十分活躍的人。", "53": "我對思想性的事充滿好奇。", "54": "如果我不喜歡一個人，我會直接讓他知道。", "55": "我好像不能把事情安排得井井有條。", "56": "有時我會善忘想起來。", "57": "我寧願我行我素多於成為別人的領袖。", "58": "我喜歡思考及把玩理論及抽象的意念。", "59": "如果需要，我會願意犧牲自己而得到我所欲得的。", "60": "我凡事必須追求卓越。"};
-const REVERSE = new Set([1, 3, 8, 9, 12, 14, 15, 16, 18, 23, 24, 27, 29, 30, 31, 33, 38, 39, 42, 44, 45, 46, 48, 54, 55, 57, 59]);
-const NORMS = {"male": {"N": {"mean": 22.49, "sd": 7.92}, "E": {"mean": 29.22, "sd": 5.97}, "O": {"mean": 27.62, "sd": 6.08}, "A": {"mean": 28.76, "sd": 5.24}, "C": {"mean": 30.21, "sd": 7.19}}, "female": {"N": {"mean": 25.83, "sd": 7.59}, "E": {"mean": 31.27, "sd": 5.64}, "O": {"mean": 27.94, "sd": 5.72}, "A": {"mean": 31.0, "sd": 6.33}, "C": {"mean": 31.02, "sd": 6.53}}};
+/* -----------------------------
+   IPIP-NEO-60 (public domain)
+   Response scale: 1..5
+   Reverse-keyed items (R) in this page: we reverse as (6 - response)
+-------------------------------- */
 
+// Reverse item numbers (1-based):
+const REVERSE = new Set([2,4,9,10,11,12,14,16,26,28,30,31,32,33,34,35,38,40,44,54,56,58,60]);
+// NOTE: Reverse-key depends on item list; keep this set aligned with the items below.
+
+/* Domain mapping: 12 per domain in order N, E, O, A, C */
 const TRAITS = [
-  {key:'N', label:'N', items:[]},
-  {key:'E', label:'E', items:[]},
-  {key:'O', label:'O', items:[]},
-  {key:'A', label:'A', items:[]},
-  {key:'C', label:'C', items:[]}
+  {key:'N', en:'Neuroticism', zh:'神經質', items:[]},
+  {key:'E', en:'Extraversion', zh:'外向性', items:[]},
+  {key:'O', en:'Openness', zh:'開放性', items:[]},
+  {key:'A', en:'Agreeableness', zh:'宜人性', items:[]},
+  {key:'C', en:'Conscientiousness', zh:'盡責性', items:[]},
 ];
-for(let i=1;i<=60;i++) TRAITS[(i-1)%5].items.push(i);
 
-const SCALE = ['SD','D','N','A','SA'];
-const answers = new Map(); // item -> score 0..4
-let RESULTS_REVEALED = false; // hide totals/footer until Score
-let LANG = localStorage.getItem('neo_lang') || 'en';
+for(let i=1;i<=60;i++){
+  TRAITS[Math.floor((i-1)/12)].items.push(i);
+}
+
+/* Items (EN + Traditional Chinese) */
+const ITEMS = [
+  // N 1-12
+  {en:"Get stressed out easily.", zh:"我很容易感到壓力。"},
+  {en:"Am relaxed most of the time.", zh:"我大多時候都很放鬆。"},
+  {en:"Worry about things.", zh:"我會為很多事情擔心。"},
+  {en:"Seldom feel blue.", zh:"我很少感到情緒低落。"},
+  {en:"Am easily disturbed.", zh:"我很容易被影響／受干擾。"},
+  {en:"Get upset easily.", zh:"我很容易感到心煩意亂。"},
+  {en:"Change my mood a lot.", zh:"我的情緒變化很大。"},
+  {en:"Have frequent mood swings.", zh:"我經常情緒起伏。"},
+  {en:"Get irritated easily.", zh:"我很容易煩躁。"},
+  {en:"Often feel blue.", zh:"我經常感到情緒低落。"},
+  {en:"Panic easily.", zh:"我很容易驚慌。"},
+  {en:"Feel comfortable with myself.", zh:"我對自己感到自在。"},
+  // E 13-24
+  {en:"Am the life of the party.", zh:"在聚會中我常是帶動氣氛的人。"},
+  {en:"Don't talk a lot.", zh:"我不太多話。"},
+  {en:"Feel comfortable around people.", zh:"和別人在一起我很自在。"},
+  {en:"Keep in the background.", zh:"我通常保持低調／在一旁。"},
+  {en:"Start conversations.", zh:"我會主動開始對話。"},
+  {en:"Have little to say.", zh:"我沒什麼好說的。"},
+  {en:"Talk to a lot of different people at parties.", zh:"在派對上我會跟很多不同的人聊天。"},
+  {en:"Don't like to draw attention to myself.", zh:"我不喜歡把注意力吸引到自己身上。"},
+  {en:"Don't mind being the center of attention.", zh:"我不介意成為眾人焦點。"},
+  {en:"Am quiet around strangers.", zh:"在陌生人面前我比較安靜。"},
+  {en:"Make friends easily.", zh:"我很容易交朋友。"},
+  {en:"Take charge.", zh:"我會主動負責／帶頭。"},
+  // O 25-36
+  {en:"Have a rich vocabulary.", zh:"我的詞彙量很豐富。"},
+  {en:"Have difficulty understanding abstract ideas.", zh:"我難以理解抽象概念。"},
+  {en:"Have a vivid imagination.", zh:"我有很生動的想像力。"},
+  {en:"Am not interested in abstract ideas.", zh:"我對抽象概念不感興趣。"},
+  {en:"Have excellent ideas.", zh:"我常有很好的點子。"},
+  {en:"Do not have a good imagination.", zh:"我的想像力不太好。"},
+  {en:"Am quick to understand things.", zh:"我理解事物很快。"},
+  {en:"Use difficult words.", zh:"我會使用較艱深的詞彙。"},
+  {en:"Spend time reflecting on things.", zh:"我會花時間反思事情。"},
+  {en:"Am full of ideas.", zh:"我腦中充滿點子。"},
+  {en:"Avoid philosophical discussions.", zh:"我會避免哲學性的討論。"},
+  {en:"Enjoy thinking about theoretical issues.", zh:"我喜歡思考理論性的議題。"},
+  // A 37-48
+  {en:"Feel others' emotions.", zh:"我能感受到別人的情緒。"},
+  {en:"Am not interested in other people's problems.", zh:"我對別人的問題不感興趣。"},
+  {en:"Have a soft heart.", zh:"我心腸很軟。"},
+  {en:"Am not really interested in others.", zh:"我其實不太關心別人。"},
+  {en:"Take time out for others.", zh:"我願意騰出時間給別人。"},
+  {en:"Feel little concern for others.", zh:"我很少為別人擔心。"},
+  {en:"Make people feel at ease.", zh:"我會讓人感到放鬆自在。"},
+  {en:"Insult people.", zh:"我會侮辱／冒犯別人。"},
+  {en:"Sympathize with others' feelings.", zh:"我會同理別人的感受。"},
+  {en:"Am not interested in other people's problems.", zh:"我對別人的困擾不感興趣。"},
+  {en:"Have a forgiving nature.", zh:"我比較寬容，容易原諒。"},
+  {en:"Am generally trusting.", zh:"我一般都很信任別人。"},
+  // C 49-60
+  {en:"Am always prepared.", zh:"我總是有準備。"},
+  {en:"Leave my belongings around.", zh:"我會把東西亂放。"},
+  {en:"Pay attention to details.", zh:"我會留意細節。"},
+  {en:"Make a mess of things.", zh:"我常把事情弄得一團糟。"},
+  {en:"Get chores done right away.", zh:"我會立刻把該做的事做完。"},
+  {en:"Often forget to put things back in their proper place.", zh:"我常忘記把東西放回原位。"},
+  {en:"Like order.", zh:"我喜歡井然有序。"},
+  {en:"Shirk my duties.", zh:"我會逃避責任。"},
+  {en:"Follow a schedule.", zh:"我會按計劃／日程行事。"},
+  {en:"Am exacting in my work.", zh:"我做事要求很高。"},
+  {en:"Am reliable.", zh:"我很可靠。"},
+  {en:"Waste my time.", zh:"我會浪費時間。"},
+];
+
+const answers = new Map(); // item -> 1..5
+let SHOW_SCORES = false;
+let LANG = localStorage.getItem('big5_lang') || 'en';
 
 function i18n(){
   const en = LANG === 'en';
-  document.getElementById('title').textContent = en ? 'NEO Big Five (Short Form — 60 items)' : 'NEO 五大人格（短版 60 題）';
-  document.getElementById('subtitle').textContent = en ? 'Choose one option for each statement using the scale below (SD → SA).' : '請使用下列量表（SD → SA），就每句陳述選擇一個最符合你平時想法或感受的選項。請憑直覺作答，毋須花時間反覆思考。';
+  document.getElementById('title').textContent = en
+    ? 'IPIP-NEO-60 Big Five (Public Domain) — 60 items'
+    : 'IPIP-NEO-60 五大人格（公共領域）— 60 題';
+  document.getElementById('subtitle').textContent = en
+    ? 'Rate how accurately each statement describes you (1 → 5).'
+    : '請按每句描述是否符合你（1 → 5）作答。';
+
+  document.getElementById('scaleExplain').textContent = en
+    ? 'Very Inaccurate → Very Accurate'
+    : '非常不符合 → 非常符合';
 
   document.getElementById('scoringNote').innerHTML = en
-    ? '<b>Scoring:</b> use the <b>numbers in the bubbles (0–4)</b> for each item, then add the 12 items in each column (same column / 直行) to get 5 totals.'
-    : '<b>計分：</b>每題以「圈內數字（0–4）」為分數，然後把同一欄（直行）12 題相加，得出 5 個總分。';
+    ? '<b>Scoring:</b> Your trait scores will be shown as <b>mean scores (1–5)</b> after you press <b>Score</b>. Reverse-keyed items are handled automatically.'
+    : '<b>計分：</b>按下 <b>計分</b> 後，會顯示五大向度的<b>平均分（1–5）</b>，反向題已自動處理。';
 
-  document.getElementById('answeredPill').innerHTML = en ? 'Answered: <span id="countDone">0</span>/60' : '已作答：<span id="countDone">0</span>/60';
-  document.getElementById('maxPill').textContent = en ? 'Max per column: 12 × 4 = 48' : '每欄最高分：12 × 4 = 48';
-  document.getElementById('privacyPill').textContent = en ? 'This page does not upload answers (browser-only).' : '本頁不會上載答案（只在瀏覽器內計分）。';
+  document.getElementById('answeredPill').innerHTML = en
+    ? 'Answered: <span id="countDone">0</span>/60'
+    : '已作答：<span id="countDone">0</span>/60';
+
+  document.getElementById('privacyPill').textContent = en
+    ? 'This page does not upload answers (browser-only).'
+    : '本頁不會上載作答內容（只在瀏覽器內計分）。';
+
+  // Hide/show helper texts via class
+  document.querySelectorAll('.enOnly').forEach(el => el.style.display = en ? '' : 'none');
+  document.querySelectorAll('.zhOnly').forEach(el => el.style.display = en ? 'none' : '');
 
   document.getElementById('btnReview').textContent = en ? 'Review unanswered' : '查看未答題目';
   document.getElementById('btnReset').textContent = en ? 'Reset' : '重設';
-  document.getElementById('btnScore').textContent = en ? 'Score & show norms' : '計分並顯示常模';
+  document.getElementById('btnScore').textContent = en ? 'Score' : '計分';
 
-  document.getElementById('resultTitle').textContent = en ? 'Results (revealed after scoring)' : '結果（按下計分後才顯示）';
+  document.getElementById('resultTitle').textContent = en ? 'Results' : '結果';
+  document.getElementById('resultNote').textContent = en
+    ? 'Means (1–5) are shown. Interpret cautiously; context & culture matter.'
+    : '顯示平均分（1–5）。請審慎解讀，留意情境與文化因素。';
 
-  // the first text node inside groupLine is the prompt text
-  const gl = document.getElementById('groupLine');
-  if(gl && gl.firstChild) gl.firstChild.nodeValue = en ? 'Select comparison group: ' : '選擇比較組別：';
+  document.getElementById('interpHint').textContent = en
+    ? 'Teaching-oriented tip: roughly 1.0–2.4 = lower; 2.5–3.5 = typical; 3.6–5.0 = higher (relative to your own responses).'
+    : '教學取向提示：大致 1.0–2.4 = 較低；2.5–3.5 = 一般；3.6–5.0 = 較高（以個人作答作相對比較）。';
 
-  document.getElementById('thDim').textContent = en ? 'Dimension' : '向度';
-  document.getElementById('thYou').textContent = en ? 'Your total' : '你的總分';
-  document.getElementById('thNorm').textContent = en ? 'Norm mean (SD)' : '常模平均（SD）';
-  document.getElementById('thPct').textContent = en ? 'Approx. percentile' : '約百分位';
-
-  document.getElementById('teacherNote').innerHTML = en
-    ? '<b>Teacher note:</b> Discuss interpretation only after students finish to reduce demand characteristics.'
-    : '<b>教師提示：</b>建議學生完成後才討論分數意義，以減少需求特徵。';
+  document.getElementById('attribTitle').textContent = en ? 'Attribution' : '引用／致謝';
 
   document.getElementById('btnEN').classList.toggle('active', en);
   document.getElementById('btnZH').classList.toggle('active', !en);
-}
 
-function getItems(){ return LANG === 'en' ? ITEMS_EN : ITEMS_ZH; }
-
-function scoreOptionsForItem(itemNo){
-  const forward=[0,1,2,3,4];
-  const reverse=[4,3,2,1,0];
-  return REVERSE.has(itemNo) ? reverse : forward;
+  document.getElementById('labN').textContent = en ? 'N (Neuroticism)' : 'N（神經質）';
+  document.getElementById('labE').textContent = en ? 'E (Extraversion)' : 'E（外向性）';
+  document.getElementById('labO').textContent = en ? 'O (Openness)' : 'O（開放性）';
+  document.getElementById('labA').textContent = en ? 'A (Agreeableness)' : 'A（宜人性）';
+  document.getElementById('labC').textContent = en ? 'C (Conscientiousness)' : 'C（盡責性）';
 }
 
 function updateTop(){
@@ -280,31 +341,19 @@ function updateTop(){
   if(countEl) countEl.textContent = String(done);
   document.getElementById('bar').style.width=(done/60*100).toFixed(1)+'%';
 
-  // ✅ Hide totals during answering
-  if(!RESULTS_REVEALED){
+  if(!SHOW_SCORES){
     document.getElementById('outN').textContent='—';
     document.getElementById('outE').textContent='—';
     document.getElementById('outO').textContent='—';
     document.getElementById('outA').textContent='—';
     document.getElementById('outC').textContent='—';
-    return;
   }
-
-  // ✅ Only show totals after Score
-  const totals={N:0,E:0,O:0,A:0,C:0};
-  for(const t of TRAITS){
-    let sum=0;
-    for(const i of t.items) if(answers.has(i)) sum+=answers.get(i);
-    totals[t.key]=sum;
-  }
-  document.getElementById('outN').textContent=String(totals.N);
-  document.getElementById('outE').textContent=String(totals.E);
-  document.getElementById('outO').textContent=String(totals.O);
-  document.getElementById('outA').textContent=String(totals.A);
-  document.getElementById('outC').textContent=String(totals.C);
 }
 
-function setAnswer(itemNo, score){ answers.set(itemNo, score); updateTop(); }
+function setAnswer(itemNo, value){
+  answers.set(itemNo, value);
+  updateTop();
+}
 
 function scrollToFirstUnanswered(){
   for(let i=1;i<=60;i++){
@@ -317,91 +366,69 @@ function scrollToFirstUnanswered(){
   alert(LANG==='en' ? 'All answered ✅' : '已全部作答 ✅');
 }
 
- function resetAll(){
-  if(!confirm('Reset and clear all answers?')) return;
-
+function resetAll(){
+  if(!confirm(LANG==='en' ? 'Reset and clear all answers?' : '確定要重設所有作答嗎？')) return;
   answers.clear();
   document.querySelectorAll('input[type="radio"]').forEach(r=>r.checked=false);
   document.getElementById('result').classList.add('hidden');
-
-  /* 🔽 ADD THESE LINES */
-  RESULTS_REVEALED = false;
-
-  const ft = document.getElementById('siteFooter');
-  if(ft) ft.classList.add('hidden');
-
+  SHOW_SCORES = false;
   updateTop();
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
-function normCdf(z){
-  const t = 1/(1+0.2316419*Math.abs(z));
-  const d = 0.3989423*Math.exp(-z*z/2);
-  let p = d*t*(0.3193815 + t*(-0.3565638 + t*(1.781478 + t*(-1.821256 + t*1.330274))));
-  p = 1-p;
-  return z<0 ? 1-p : p;
+function reverseIfNeeded(itemNo, v){
+  return REVERSE.has(itemNo) ? (6 - v) : v;
 }
 
-function computeTotals(){
-  const totals={N:0,E:0,O:0,A:0,C:0};
+function mean(nums){
+  return nums.reduce((a,b)=>a+b,0)/nums.length;
+}
+
+function computeTraitMeans(){
+  // require all answered
+  for(let i=1;i<=60;i++) if(!answers.has(i)) return null;
+
+  const means = {};
   for(const t of TRAITS){
-    let sum=0;
-    for(const i of t.items){
-      if(!answers.has(i)) return null;
-      sum+=answers.get(i);
-    }
-    totals[t.key]=sum;
+    const vals = t.items.map(i => reverseIfNeeded(i, answers.get(i)));
+    means[t.key] = mean(vals);
   }
-  return totals;
+  return means;
 }
 
-function renderNorms(){
-  const totals=computeTotals();
-  if(!totals){
+function renderScores(){
+  const means = computeTraitMeans();
+  if(!means){
     alert(LANG==='en' ? 'Please answer all items before scoring.' : '請先完成所有題目才可計分。');
     scrollToFirstUnanswered();
     return;
   }
-  const sex=document.querySelector('input[name="sex"]:checked').value;
-  const norm=NORMS[sex];
-  const traitNames={N:'Neuroticism',E:'Extraversion',O:'Openness',A:'Agreeableness',C:'Conscientiousness'};
 
-  const tbody=document.getElementById('normRows');
-  tbody.innerHTML='';
-  for(const k of ['N','E','O','A','C']){
-    const mean=norm[k].mean, sd=norm[k].sd;
-    const score=totals[k];
-    const z=(score-mean)/sd;
-    const pct=Math.round(normCdf(z)*100);
-
-    const tr=document.createElement('tr');
-    tr.innerHTML = (LANG==='en')
-      ? `<td><b>${k}</b> – ${traitNames[k]}</td><td>${score}</td><td>${mean.toFixed(2)} (${sd.toFixed(2)})</td><td>${z.toFixed(2)}</td><td>${pct}th</td>`
-      : `<td><b>${k}</b> – ${traitNames[k]}</td><td>${score}</td><td>${mean.toFixed(2)} (${sd.toFixed(2)})</td><td>${z.toFixed(2)}</td><td>${pct} 百分位</td>`;
-    tbody.appendChild(tr);
-  }
+  SHOW_SCORES = true;
+  document.getElementById('outN').textContent = means.N.toFixed(2);
+  document.getElementById('outE').textContent = means.E.toFixed(2);
+  document.getElementById('outO').textContent = means.O.toFixed(2);
+  document.getElementById('outA').textContent = means.A.toFixed(2);
+  document.getElementById('outC').textContent = means.C.toFixed(2);
 
   document.getElementById('result').classList.remove('hidden');
   document.getElementById('result').scrollIntoView({behavior:'smooth', block:'start'});
-RESULTS_REVEALED = true;
-  updateTop();   // now show N / E / O / A / C totals
-
-  const ft = document.getElementById('siteFooter');
-  if(ft) ft.classList.remove('hidden');
 }
 
 function buildGrid(){
   const grid=document.getElementById('grid');
   grid.innerHTML='';
-  const ITEMS = getItems();
 
-  for(const t of TRAITS){
+  // Build 5 columns: N, E, O, A, C (12 each)
+  for(let colIndex=0; colIndex<5; colIndex++){
+    const t = TRAITS[colIndex];
+
     const col=document.createElement('section');
     col.className='col';
 
     const head=document.createElement('div');
     head.className='colhead';
-    head.innerHTML=`<div class="code">${t.label}</div><div class="badge">12 items</div>`;
+    head.innerHTML=`<div class="code">${t.key}</div><div class="badge">12 items</div>`;
     col.appendChild(head);
 
     for(const itemNo of t.items){
@@ -411,36 +438,43 @@ function buildGrid(){
 
       const stem=document.createElement('div');
       stem.className='stem';
-      stem.innerHTML=`<div class="num">${itemNo}</div><div class="txt">${ITEMS[itemNo] || ''}</div>`;
+      const text = (LANG === 'en') ? ITEMS[itemNo-1].en : ITEMS[itemNo-1].zh;
+      stem.innerHTML=`<div class="num">${itemNo}</div><div class="txt">${escapeHtml(text)}</div>`;
       item.appendChild(stem);
 
       const choices=document.createElement('div');
       choices.className='choices';
 
-      const scores=scoreOptionsForItem(itemNo);
-      scores.forEach((sc, idx)=>{
+      for(let v=1; v<=5; v++){
         const name='q'+itemNo;
         const label=document.createElement('label');
         label.className='opt';
-        label.innerHTML=`<input type="radio" name="${name}" value="${sc}"><span>${SCALE[idx]}</span><span class="score">${sc}</span>`;
-        const input = label.querySelector('input');
-        input.addEventListener('change', (e)=>setAnswer(itemNo, Number(e.target.value)));
+        label.innerHTML=`<input type="radio" name="${name}" value="${v}"><span>${v}</span>`;
+        const input=label.querySelector('input');
 
-        if(answers.has(itemNo) && answers.get(itemNo)===sc) input.checked=true;
+        input.addEventListener('change', (e)=>setAnswer(itemNo, Number(e.target.value)));
+        if(answers.has(itemNo) && answers.get(itemNo)===v) input.checked=true;
+
         choices.appendChild(label);
-      });
+      }
 
       item.appendChild(choices);
       col.appendChild(item);
     }
+
     grid.appendChild(col);
   }
+
   updateTop();
+}
+
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
 function setLang(newLang){
   LANG = newLang;
-  localStorage.setItem('neo_lang', LANG);
+  localStorage.setItem('big5_lang', LANG);
   i18n();
   buildGrid();
 }
@@ -449,10 +483,7 @@ document.getElementById('btnEN').addEventListener('click', ()=>setLang('en'));
 document.getElementById('btnZH').addEventListener('click', ()=>setLang('zh'));
 document.getElementById('btnReview').addEventListener('click', scrollToFirstUnanswered);
 document.getElementById('btnReset').addEventListener('click', resetAll);
-document.getElementById('btnScore').addEventListener('click', renderNorms);
-document.querySelectorAll('input[name="sex"]').forEach(el => el.addEventListener('change', ()=>{
-  if(!document.getElementById('result').classList.contains('hidden')) renderNorms();
-}));
+document.getElementById('btnScore').addEventListener('click', renderScores);
 
 // init
 i18n();
@@ -460,3 +491,5 @@ buildGrid();
 </script>
 </body>
 </html>
+
+
